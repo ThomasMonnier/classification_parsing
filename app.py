@@ -21,9 +21,10 @@ if __name__ == "__main__":
         type=["pdf"],
     )
 
-    with open(uploaded_file.name, "wb") as buffer:
-        shutil.copyfileobj(uploaded_file, buffer)
-    
-    dfs = read_pdf_lst_df(uploaded_file.name)
-    st.info(dfs)
-    st.info(type(dfs))
+    if uploaded_file:
+        with open(uploaded_file.name, "wb") as buffer:
+            shutil.copyfileobj(uploaded_file, buffer)
+        
+        dfs = read_pdf_lst_df(uploaded_file.name)
+        st.info(dfs)
+        st.info(type(dfs))
