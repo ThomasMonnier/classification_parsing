@@ -1,6 +1,8 @@
 import streamlit as st
+import shutil
 
 from src.utils import read_markdown_file
+from src.test_tabula import read_pdf_lst_df
 
 
 st.set_page_config(layout="wide")
@@ -13,3 +15,15 @@ if __name__ == "__main__":
     )
     intro_markdown = read_markdown_file("introduction.md")
     st.markdown(intro_markdown, unsafe_allow_html=True)
+
+    uploaded_file = st.file_uploader(
+        "Choose a file (PDF / PNG)",
+        type=["pdf"],
+    )
+
+    with open(uploaded_file.name, "wb") as buffer:
+        shutil.copyfileobj(uploaded_file, buffer)
+    
+    dfs = read_pdf_lst_df(uploaded_file.name)
+    st.info(dfs)
+    st.info(type(dfs))
