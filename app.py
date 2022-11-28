@@ -26,5 +26,5 @@ if __name__ == "__main__":
             shutil.copyfileobj(uploaded_file, buffer)
         
         dfs = read_pdf_lst_df(uploaded_file.name)
-        st.info(dfs)
-        st.info(type(dfs))
+        for df in dfs:
+            st.dataframe(df)
