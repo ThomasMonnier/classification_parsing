@@ -1,0 +1,7 @@
+tabula-py
+invoice2data
+pypdftk
+pdfplumber
+streamlit
+black
+isort
