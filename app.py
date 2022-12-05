@@ -26,7 +26,7 @@ if __name__ == "__main__":
             shutil.copyfileobj(uploaded_file, buffer)
         
         dfs = read_pdf_lst_df(uploaded_file.name)
-        len_dfs = [len(list(df.column)) for df in dfs]
+        len_dfs = [len(list(df.columns)) for df in dfs]
         i, j = 1, 0
         while j < 5:
             pattern = [i, i+1, i+2]
