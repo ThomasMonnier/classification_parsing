@@ -107,7 +107,10 @@ if __name__ == "__main__":
             dates, display_dates = [], []
             for df in dfs:
                 columns = list(df.columns)
-                if columns == ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MISURA", 'PREZZO UNITARIO', "QUANTITA'", 'euro']:
+                if columns in [
+                    ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MISURA", 'PREZZO UNITARIO', "QUANTITA'", 'euro'],
+                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
+                ]:
                     for iter, row in df.iterrows():
                         dates.append(datetime.strptime(row[0], "%d/%m/%Y"))
                         dates.append(datetime.strptime(row[1], "%d/%m/%Y"))
