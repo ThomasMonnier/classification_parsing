@@ -108,7 +108,7 @@ if __name__ == "__main__":
             for df in dfs:
                 columns = list(df.columns)
                 st.info(columns)
-                if columns == ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MESURA", "PREZZO UNITARIO", "QUANTITA'", "euro"]:
+                if columns == ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MISURA", 'PREZZO UNITARIO', "QUANTITA'", 'euro']:
                     for iter, row in df.iterrows():
                         dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
                         display_dates.append(columns[0])
