@@ -46,22 +46,27 @@ if __name__ == "__main__":
                 shutil.copyfileobj(uploaded_file, buffer)
             
             st.info(uploaded_file.name)
+            
             dfs = read_pdf_lst_df(uploaded_file.name)
-
             for df in dfs:
                 columns = list(df.columns)
                 if columns[0] == "Unnamed: 0":
-                    new_header = df.iloc[0] #grab the first row for the header
-                    df = df[1:] #take the data less the header row
-                    df.columns = new_header #set the header row as the df header
+                    try:
+                        new_header = df.iloc[0] #grab the first row for the header
+                        df = df[1:] #take the data less the header row
+                        df.columns = new_header #set the header row as the df header
+                    except:
+                        pass
 
-            dates = []
+            dates, display_dates = [], []
             for df in dfs:
                 columns = list(df.columns)
                 if is_date(columns[0]):
                     dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
+                    display_dates.append(columns[0])
                 st.dataframe(df)
             dates = list(set(dates))
+
             if len(dates) > 0:
-                st.info('Dates are {}'.format(dates))
+                st.info('Dates are {}'.format(display_dates))
                 st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
