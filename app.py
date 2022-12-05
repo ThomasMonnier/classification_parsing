@@ -56,7 +56,7 @@ if __name__ == "__main__":
         for df in dfs:
             columns = list(df.columns)
             if is_date(columns[0]):
-                dates.append(datetime.strptime(columns[0], "%d/%m/%Y"))
+                dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
                 st.dataframe(df)
         dates = list(set(dates))
         st.info('Dates are {}'.format(dates))
