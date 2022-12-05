@@ -1,5 +1,5 @@
 import streamlit as st
-from dateutil.parser import parserinfo
+from dateutil.parser import parse
 from datetime import datetime
 from dateutil import relativedelta
 import shutil
