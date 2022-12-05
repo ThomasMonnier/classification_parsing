@@ -45,22 +45,15 @@ if __name__ == "__main__":
 
         for df in dfs:
             columns = list(df.columns)
-            st.info(columns)
             if columns[0] == "Unnamed: 0":
                 new_header = df.iloc[0] #grab the first row for the header
                 df = df[1:] #take the data less the header row
                 df.columns = new_header #set the header row as the df header
-        
-        # len_dfs = [len(list(df.columns)) for df in dfs]
-        # i, j = 1, 0
-        # while j < 10:
-        #     pattern = [i, i+1, i+2]
-        #     st.info(pattern)
-        #     st.info(pattern_match(pattern, len_dfs))
-        #     i += 1
-        #     j += 1
 
         for df in dfs:
             columns = list(df.columns)
+            dates = []
             if is_date(columns[0]):
+                dates.append(columns[0])
                 st.dataframe(df)
+            st.info('Dates are {}'.format(list(set(dates))))
