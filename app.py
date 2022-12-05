@@ -136,7 +136,7 @@ if __name__ == "__main__":
                         try:
                             match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
                             mind = datetime.strptime(match_1.group(), '%d/%m/%y')
-                            match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                            match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[1])
                             maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
                             dates.append(mind)
                             dates.append(maxd)
@@ -146,7 +146,7 @@ if __name__ == "__main__":
                             try:
                                 match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
                                 mind = datetime.strptime(match_1.group(), '%d/%m/%y')
-                                match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                                match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[1])
                                 maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
                                 dates.append(mind)
                                 dates.append(maxd)
