@@ -3,6 +3,7 @@ from dateutil.parser import parse
 from datetime import datetime
 from dateutil import relativedelta
 import shutil
+import base64
 
 from src.utils import read_markdown_file, pattern_match
 from src.test_tabula import read_pdf_lst_df
@@ -26,6 +27,17 @@ def is_date(string, fuzzy=False):
         return False
 
 
+def displayPDF(file):
+    # Opening file from file path
+    with open(file, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+
+    # Embedding PDF in HTML
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="600" height="600" type="application/pdf"></iframe>'
+    # Displaying File
+    st.markdown(pdf_display, unsafe_allow_html=True)
+
+
 if __name__ == "__main__":
     st.markdown(
         "<h1 style='text-align: center; color: green;'>Classification & Parsing</h1>",
@@ -41,11 +53,17 @@ if __name__ == "__main__":
     )
 
     if uploaded_files:
+        col_1, col_2 = st.columns(2)
+
         for uploaded_file in uploaded_files:
             with open(uploaded_file.name, "wb") as buffer:
                 shutil.copyfileobj(uploaded_file, buffer)
             
-            st.info(uploaded_file.name)
+            with col_1:
+                displayPDF(uploaded_file.name)
+
+            with col_2:
+                st.info(uploaded_file.name)
             
             dfs = read_pdf_lst_df(uploaded_file.name)
             for df in dfs:
@@ -64,10 +82,12 @@ if __name__ == "__main__":
                 if is_date(columns[0]):
                     dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
                     display_dates.append(columns[0])
-                st.dataframe(df)
+                with col_2:
+                    st.dataframe(df)
             dates = list(set(dates))
             display_dates = list(set(display_dates))
 
-            if len(dates) > 0:
-                st.info('Dates are {}'.format(display_dates))
-                st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
+            with col_2:
+                if len(dates) > 0:
+                    st.info('Dates are {}'.format(display_dates))
+                    st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
