@@ -120,7 +120,13 @@ if __name__ == "__main__":
                                 display_dates.append(row[i])
                                 display_dates.append(row[i+1])
                             except:
-                                pass
+                                try:
+                                    dates.append(datetime.strptime(row[i], "%d/%m/%y"))
+                                    dates.append(datetime.strptime(row[i+1], "%d/%m/%y"))
+                                    display_dates.append(row[i])
+                                    display_dates.append(row[i+1])
+                                except:
+                                    pass
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
                     break
@@ -129,15 +135,25 @@ if __name__ == "__main__":
                     for iter, row in df.iterrows():
                         try:
                             match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
-                            mind = datetime.strptime(match_1.group(), '%d/%m/%y').date()
+                            mind = datetime.strptime(match_1.group(), '%d/%m/%y')
                             match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
-                            maxd = datetime.strptime(match_1.group(), '%d/%m/%y').date()
+                            maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
                             dates.append(mind)
                             dates.append(maxd)
                             display_dates.append(mind)
                             display_dates.append(maxd)
                         except:
-                            pass
+                            try:
+                                match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                                mind = datetime.strptime(match_1.group(), '%d/%m/%y')
+                                match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                                maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
+                                dates.append(mind)
+                                dates.append(maxd)
+                                display_dates.append(mind)
+                                display_dates.append(maxd)
+                            except:
+                                pass
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
                     break
