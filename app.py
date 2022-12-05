@@ -31,12 +31,6 @@ def action():
     st.session_state.index += 1
 
 
-def display(dfs):
-    for df in dfs:
-        st.dataframe(df)
-
-
-
 def displayPDF(file):
     # Opening file from file path
     with open(file, "rb") as f:
@@ -102,7 +96,9 @@ if __name__ == "__main__":
         with col_2:
             if len(dates) > 0:
                 st.info('Dates are {}'.format(display_dates))
-                st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
+                diff_months = 1 + relativedelta.relativedelta(max(dates), min(dates)).months
+                st.info('Months: {}'.format(len(dates)))
+                st.info('Validation: {}'.format((len(dates) == diff_months)))
         
             if st.session_state.index + 1 < len(uploaded_files):
                 next = st.button('Next', on_click=action)
@@ -110,5 +106,9 @@ if __name__ == "__main__":
             else:
                 st.info('All invoices have been processed ({} invoice{})'.format(len(uploaded_files), 's'*(len(uploaded_files)>1)))
             
-            display = st.button('Display', on_click=display, args=(dfs, ))
+            display = st.selectbox('Display dataframes', ('True', 'False'), default='False')
+            if display:
+                for df in dfs:
+                    with col_2:
+                        st.dataframe(df)
             
