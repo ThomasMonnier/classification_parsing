@@ -133,27 +133,28 @@ if __name__ == "__main__":
 
                 elif columns == ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2'] and dates == []:
                     for iter, row in df.iterrows():
-                        try:
-                            match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
-                            mind = datetime.strptime(match_1.group(), '%d/%m/%y')
-                            match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[1])
-                            maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
-                            dates.append(mind)
-                            dates.append(maxd)
-                            display_dates.append(mind)
-                            display_dates.append(maxd)
-                        except:
+                        for i in range(3):
                             try:
-                                match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                                match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[i])
                                 mind = datetime.strptime(match_1.group(), '%d/%m/%y')
-                                match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[1])
+                                match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[i+1])
                                 maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
                                 dates.append(mind)
                                 dates.append(maxd)
                                 display_dates.append(mind)
                                 display_dates.append(maxd)
                             except:
-                                pass
+                                try:
+                                    match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[i])
+                                    mind = datetime.strptime(match_1.group(), '%d/%m/%y')
+                                    match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[i+1])
+                                    maxd = datetime.strptime(match_1.group(), '%d/%m/%y')
+                                    dates.append(mind)
+                                    dates.append(maxd)
+                                    display_dates.append(mind)
+                                    display_dates.append(maxd)
+                                except:
+                                    pass
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
                     break
