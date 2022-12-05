@@ -120,7 +120,8 @@ if __name__ == "__main__":
             with col_2:
                 if len(dates) > 0:
                     st.info('Dates are {}'.format(display_dates))
-                    diff_months = relativedelta.relativedelta(max(dates), min(dates)).months
+                    diff_tot = relativedelta.relativedelta(max(dates), min(dates))
+                    diff_months = diff_tot.months + 1*(diff_tot.days > 15)
                     st.info('Months: {}'.format(diff_months))
         
         with col_2:
