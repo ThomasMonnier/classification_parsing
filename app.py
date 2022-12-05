@@ -2,6 +2,7 @@ import streamlit as st
 from dateutil.parser import parse
 from datetime import datetime
 from dateutil import relativedelta
+import dateutil.parser as dparser
 import shutil
 import base64
 
@@ -109,8 +110,7 @@ if __name__ == "__main__":
                 columns = list(df.columns)
                 if columns in [
                     ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MISURA", 'PREZZO UNITARIO', "QUANTITA'", 'euro'],
-                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3'],
-                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
+                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
                 ]:
                     for iter, row in df.iterrows():
                         for i in range(3):
@@ -121,6 +121,18 @@ if __name__ == "__main__":
                                 display_dates.append(row[i+1])
                             except:
                                 pass
+                    dates = list(set(dates))
+                    display_dates = list(set(display_dates))
+                    break
+
+                elif columns == ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2'] and dates == []:
+                    for iter, row in df.iterrows():
+                        mind = dparser.parse(row[0],fuzzy=True)
+                        maxd = dparser.parse(row[1],fuzzy=True)
+                        dates.append(mind)
+                        dates.append(maxd)
+                        display_dates.append(mind)
+                        display_dates.append(maxd)
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
                     break
