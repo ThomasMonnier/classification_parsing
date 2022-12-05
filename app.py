@@ -32,6 +32,8 @@ if __name__ == "__main__":
             pattern = [i, i+1, i+2]
             st.info(pattern)
             st.info(pattern_match(pattern, len_dfs))
+            i += 1
+            j += 1
 
         for df in dfs:
             st.dataframe(df)
