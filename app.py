@@ -1,8 +1,8 @@
 import streamlit as st
 from dateutil.parser import parse
+import re
 from datetime import datetime
 from dateutil import relativedelta
-import dateutil.parser as dparser
 import shutil
 import base64
 
@@ -128,8 +128,10 @@ if __name__ == "__main__":
                 elif columns == ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2'] and dates == []:
                     for iter, row in df.iterrows():
                         try:
-                            mind = dparser.parse(row[0],fuzzy=True)
-                            maxd = dparser.parse(row[1],fuzzy=True)
+                            match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                            mind = datetime.strptime(match_1.group(), '%Y-%m-%d').date()
+                            match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
+                            maxd = datetime.strptime(match_1.group(), '%Y-%m-%d').date()
                             dates.append(mind)
                             dates.append(maxd)
                             display_dates.append(mind)
