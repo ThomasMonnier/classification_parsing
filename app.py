@@ -50,10 +50,10 @@ if __name__ == "__main__":
                 df = df[1:] #take the data less the header row
                 df.columns = new_header #set the header row as the df header
 
+        dates = []
         for df in dfs:
             columns = list(df.columns)
-            dates = []
             if is_date(columns[0]):
                 dates.append(columns[0])
                 st.dataframe(df)
-            st.info('Dates are {}'.format(list(set(dates))))
+        st.info('Dates are {}'.format(list(set(dates))))
