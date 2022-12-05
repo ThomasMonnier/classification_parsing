@@ -106,7 +106,7 @@ if __name__ == "__main__":
             else:
                 st.info('All invoices have been processed ({} invoice{})'.format(len(uploaded_files), 's'*(len(uploaded_files)>1)))
             
-            display = st.selectbox('Display dataframes', ('True', 'False'), default='False')
+            display = st.selectbox('Display dataframes', ('False', 'True'))
             if display:
                 for df in dfs:
                     with col_2:
