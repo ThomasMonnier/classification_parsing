@@ -28,7 +28,7 @@ if __name__ == "__main__":
         dfs = read_pdf_lst_df(uploaded_file.name)
         len_dfs = [len(list(df.columns)) for df in dfs]
         i, j = 1, 0
-        while j < 5:
+        while j < 10:
             pattern = [i, i+1, i+2]
             st.info(pattern)
             st.info(pattern_match(pattern, len_dfs))
