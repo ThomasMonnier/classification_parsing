@@ -109,7 +109,8 @@ if __name__ == "__main__":
                 columns = list(df.columns)
                 if columns in [
                     ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MISURA", 'PREZZO UNITARIO', "QUANTITA'", 'euro'],
-                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
+                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3'],
+                    ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
                 ]:
                     for iter, row in df.iterrows():
                         try:
