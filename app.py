@@ -57,7 +57,8 @@ if __name__ == "__main__":
             columns = list(df.columns)
             if is_date(columns[0]):
                 dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
-                st.dataframe(df)
+            st.dataframe(df)
         dates = list(set(dates))
-        st.info('Dates are {}'.format(dates))
-        st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
+        if len(dates) > 0:
+            st.info('Dates are {}'.format(dates))
+            st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
