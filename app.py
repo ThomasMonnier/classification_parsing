@@ -66,6 +66,7 @@ if __name__ == "__main__":
                     display_dates.append(columns[0])
                 st.dataframe(df)
             dates = list(set(dates))
+            display_dates = list(set(display_dates))
 
             if len(dates) > 0:
                 st.info('Dates are {}'.format(display_dates))
