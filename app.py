@@ -60,4 +60,4 @@ if __name__ == "__main__":
                 st.dataframe(df)
         dates = list(set(dates))
         st.info('Dates are {}'.format(dates))
-        st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates))))
+        st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
