@@ -1,7 +1,7 @@
 import streamlit as st
 import shutil
 
-from src.utils import read_markdown_file
+from src.utils import read_markdown_file, pattern_match
 from src.test_tabula import read_pdf_lst_df
 
 
@@ -26,5 +26,12 @@ if __name__ == "__main__":
             shutil.copyfileobj(uploaded_file, buffer)
         
         dfs = read_pdf_lst_df(uploaded_file.name)
+        len_dfs = [len(list(df.column)) for df in dfs]
+        i, j = 1, 0
+        while j < 5:
+            pattern = [i, i+1, i+2]
+            st.info(pattern)
+            st.info(pattern_match(pattern, len_dfs))
+
         for df in dfs:
             st.dataframe(df)
