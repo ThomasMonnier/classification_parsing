@@ -113,17 +113,12 @@ if __name__ == "__main__":
                     ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
                 ]:
                     for iter, row in df.iterrows():
-                        try:
-                            dates.append(datetime.strptime(row[1], "%d/%m/%Y"))
-                            dates.append(datetime.strptime(row[2], "%d/%m/%Y"))
-                            display_dates.append(row[1])
-                            display_dates.append(row[2])
-                        except:
+                        for i in range(3):
                             try:
-                                dates.append(datetime.strptime(row[1], "%d/%m/%y"))
-                                dates.append(datetime.strptime(row[2], "%d/%m/%y"))
-                                display_dates.append(row[1])
-                                display_dates.append(row[2])
+                                dates.append(datetime.strptime(row[i], "%d/%m/%Y"))
+                                dates.append(datetime.strptime(row[i+1], "%d/%m/%Y"))
+                                display_dates.append(row[i])
+                                display_dates.append(row[i+1])
                             except:
                                 pass
                     dates = list(set(dates))
