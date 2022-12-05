@@ -27,6 +27,10 @@ def is_date(string, fuzzy=False):
         return False
 
 
+def action():
+    st.session_state.index += 1
+
+
 def displayPDF(file):
     # Opening file from file path
     with open(file, "rb") as f:
@@ -55,39 +59,49 @@ if __name__ == "__main__":
     if uploaded_files:
         col_1, col_2 = st.columns(2)
 
-        for uploaded_file in uploaded_files:
-            with open(uploaded_file.name, "wb") as buffer:
-                shutil.copyfileobj(uploaded_file, buffer)
-            
-            with col_1:
-                displayPDF(uploaded_file.name)
+        if "index" not in st.session_state:
+            st.session_state.index = 0
+        
+        uploaded_file = uploaded_files[st.session_state.index]
+        
+        with open(uploaded_file.name, "wb") as buffer:
+            shutil.copyfileobj(uploaded_file, buffer)
+        
+        with col_1:
+            displayPDF(uploaded_file.name)
 
+        with col_2:
+            st.info(uploaded_file.name)
+        
+        dfs = read_pdf_lst_df(uploaded_file.name)
+        for df in dfs:
+            columns = list(df.columns)
+            if columns[0] == "Unnamed: 0":
+                try:
+                    new_header = df.iloc[0] #grab the first row for the header
+                    df = df[1:] #take the data less the header row
+                    df.columns = new_header #set the header row as the df header
+                except:
+                    pass
+
+        dates, display_dates = [], []
+        for df in dfs:
+            columns = list(df.columns)
+            if is_date(columns[0]):
+                dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
+                display_dates.append(columns[0])
             with col_2:
-                st.info(uploaded_file.name)
-            
-            dfs = read_pdf_lst_df(uploaded_file.name)
-            for df in dfs:
-                columns = list(df.columns)
-                if columns[0] == "Unnamed: 0":
-                    try:
-                        new_header = df.iloc[0] #grab the first row for the header
-                        df = df[1:] #take the data less the header row
-                        df.columns = new_header #set the header row as the df header
-                    except:
-                        pass
+                st.dataframe(df)
+        dates = list(set(dates))
+        display_dates = list(set(display_dates))
 
-            dates, display_dates = [], []
-            for df in dfs:
-                columns = list(df.columns)
-                if is_date(columns[0]):
-                    dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
-                    display_dates.append(columns[0])
-                with col_2:
-                    st.dataframe(df)
-            dates = list(set(dates))
-            display_dates = list(set(display_dates))
-
-            with col_2:
-                if len(dates) > 0:
-                    st.info('Dates are {}'.format(display_dates))
-                    st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
+        with col_2:
+            if len(dates) > 0:
+                st.info('Dates are {}'.format(display_dates))
+                st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
+        
+        if st.session_state.index + 1 < len(uploaded_files):
+            next = st.button('Next', on_click=action)
+        
+        else:
+            st.info('All invoices have been processed ({} invoice{})'.format(len(uploaded_files), 's'*(len(uploaded_files)>1)))
