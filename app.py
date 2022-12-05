@@ -120,9 +120,8 @@ if __name__ == "__main__":
             with col_2:
                 if len(dates) > 0:
                     st.info('Dates are {}'.format(display_dates))
-                    diff_months = 1 + relativedelta.relativedelta(max(dates), min(dates)).months
-                    st.info('Months: {}'.format(len(dates)))
-                    st.info('Validation: {}'.format((len(dates) == diff_months)))
+                    diff_months = relativedelta.relativedelta(max(dates), min(dates)).months
+                    st.info('Months: {}'.format(diff_months))
         
         with col_2:
             if st.session_state.index + 1 < len(uploaded_files):
