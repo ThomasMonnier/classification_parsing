@@ -118,7 +118,13 @@ if __name__ == "__main__":
                             display_dates.append(row[1])
                             display_dates.append(row[2])
                         except:
-                            pass
+                            try:
+                                dates.append(datetime.strptime(row[1], "%d/%m/%y"))
+                                dates.append(datetime.strptime(row[2], "%d/%m/%y"))
+                                display_dates.append(row[1])
+                                display_dates.append(row[2])
+                            except:
+                                pass
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
                     break
