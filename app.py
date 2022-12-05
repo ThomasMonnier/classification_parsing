@@ -31,6 +31,12 @@ def action():
     st.session_state.index += 1
 
 
+def display(dfs):
+    for df in dfs:
+        st.dataframe(df)
+
+
+
 def displayPDF(file):
     # Opening file from file path
     with open(file, "rb") as f:
@@ -90,8 +96,6 @@ if __name__ == "__main__":
             if is_date(columns[0]):
                 dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
                 display_dates.append(columns[0])
-            with col_2:
-                st.dataframe(df)
         dates = list(set(dates))
         display_dates = list(set(display_dates))
 
@@ -100,8 +104,11 @@ if __name__ == "__main__":
                 st.info('Dates are {}'.format(display_dates))
                 st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates)).months))
         
-        if st.session_state.index + 1 < len(uploaded_files):
-            next = st.button('Next', on_click=action)
+            if st.session_state.index + 1 < len(uploaded_files):
+                next = st.button('Next', on_click=action)
         
-        else:
-            st.info('All invoices have been processed ({} invoice{})'.format(len(uploaded_files), 's'*(len(uploaded_files)>1)))
+            else:
+                st.info('All invoices have been processed ({} invoice{})'.format(len(uploaded_files), 's'*(len(uploaded_files)>1)))
+            
+            display = st.button('Display', on_click=display, args=(dfs, ))
+            
