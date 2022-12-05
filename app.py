@@ -109,7 +109,7 @@ if __name__ == "__main__":
                 columns = list(df.columns)
                 if columns == ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MISURA", 'PREZZO UNITARIO', "QUANTITA'", 'euro']:
                     for iter, row in df.iterrows():
-                        dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
+                        dates.append(datetime.strptime(columns[0], "%d/%m/%Y"))
                         display_dates.append(columns[0])
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
