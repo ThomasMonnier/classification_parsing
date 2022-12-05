@@ -68,43 +68,67 @@ if __name__ == "__main__":
             shutil.copyfileobj(uploaded_file, buffer)
         
         with col_1:
+            provider = st.selectbox('Provider: ', ('A2A', 'ACEA', 'IREN'))
             displayPDF(uploaded_file.name)
 
         with col_2:
             st.info(uploaded_file.name)
         
         dfs = read_pdf_lst_df(uploaded_file.name)
-        for df in dfs:
-            columns = list(df.columns)
-            if columns[0] == "Unnamed: 0":
-                try:
-                    new_header = df.iloc[0] #grab the first row for the header
-                    df = df[1:] #take the data less the header row
-                    df.columns = new_header #set the header row as the df header
-                except:
-                    pass
 
-        dates, display_dates = [], []
-        for df in dfs:
-            columns = list(df.columns)
-            if is_date(columns[0]):
-                dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
-                display_dates.append(columns[0])
-        dates = list(set(dates))
-        display_dates = list(set(display_dates))
+        if provider == 'A2A':
+            for df in dfs:
+                columns = list(df.columns)
+                if columns[0] == "Unnamed: 0":
+                    try:
+                        new_header = df.iloc[0] #grab the first row for the header
+                        df = df[1:] #take the data less the header row
+                        df.columns = new_header #set the header row as the df header
+                    except:
+                        pass
 
-        with col_2:
-            if len(dates) > 0:
-                st.info('Dates are {}'.format(display_dates))
-                diff_months = 1 + relativedelta.relativedelta(max(dates), min(dates)).months
-                st.info('Months: {}'.format(len(dates)))
-                st.info('Validation: {}'.format((len(dates) == diff_months)))
+            dates, display_dates = [], []
+            for df in dfs:
+                columns = list(df.columns)
+                if is_date(columns[0]):
+                    dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
+                    display_dates.append(columns[0])
+            dates = list(set(dates))
+            display_dates = list(set(display_dates))
+
+            with col_2:
+                if len(dates) > 0:
+                    st.info('Dates are {}'.format(display_dates))
+                    diff_months = 1 + relativedelta.relativedelta(max(dates), min(dates)).months
+                    st.info('Months: {}'.format(len(dates)))
+                    st.info('Validation: {}'.format((len(dates) == diff_months)))
         
+        elif provider == 'ACEA':
+            for df in dfs:
+                columns = list(df.columns)
+                if columns == ['DAL', 'AL', 'Unnamed: 0', "UNITA' DI MESURA", "PREZZO UNITARIO", "QUANTITA'", "euro"]:
+                    dates, display_dates = [], []
+                    for iter, row in df.iterrows():
+                        dates.append(datetime.strptime(columns[0], "%d.%m.%Y"))
+                        display_dates.append(columns[0])
+                    dates = list(set(dates))
+                    display_dates = list(set(display_dates))
+                    break
+            
+            with col_2:
+                if len(dates) > 0:
+                    st.info('Dates are {}'.format(display_dates))
+                    diff_months = 1 + relativedelta.relativedelta(max(dates), min(dates)).months
+                    st.info('Months: {}'.format(len(dates)))
+                    st.info('Validation: {}'.format((len(dates) == diff_months)))
+        
+        with col_2:
             if st.session_state.index + 1 < len(uploaded_files):
                 next = st.button('Next', on_click=action)
         
             else:
                 st.info('All invoices have been processed ({} invoice{})'.format(len(uploaded_files), 's'*(len(uploaded_files)>1)))
+                st.session_state.index = 0
             
             display = st.selectbox('Display dataframes', ('False', 'True'))
             if display == "True":
