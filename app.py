@@ -127,12 +127,15 @@ if __name__ == "__main__":
 
                 elif columns == ['DETTAGLIO CONSUMO FATTURATO NEL PERIODO ED EVENTUALI RICALCOLI DA CONGUAGLI', 'Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2'] and dates == []:
                     for iter, row in df.iterrows():
-                        mind = dparser.parse(row[0],fuzzy=True)
-                        maxd = dparser.parse(row[1],fuzzy=True)
-                        dates.append(mind)
-                        dates.append(maxd)
-                        display_dates.append(mind)
-                        display_dates.append(maxd)
+                        try:
+                            mind = dparser.parse(row[0],fuzzy=True)
+                            maxd = dparser.parse(row[1],fuzzy=True)
+                            dates.append(mind)
+                            dates.append(maxd)
+                            display_dates.append(mind)
+                            display_dates.append(maxd)
+                        except:
+                            pass
                     dates = list(set(dates))
                     display_dates = list(set(display_dates))
                     break
