@@ -1,5 +1,7 @@
 import streamlit as st
-from dateutil.parser import parse
+from dateutil.parser import parserinfo
+from datetime import datetime
+from dateutil import relativedelta
 import shutil
 
 from src.utils import read_markdown_file, pattern_match
@@ -54,6 +56,8 @@ if __name__ == "__main__":
         for df in dfs:
             columns = list(df.columns)
             if is_date(columns[0]):
-                dates.append(columns[0])
+                dates.append(datetime.strptime(columns[0], "%d/%m/%Y"))
                 st.dataframe(df)
-        st.info('Dates are {}'.format(list(set(dates))))
+        dates = list(set(dates))
+        st.info('Dates are {}'.format(dates))
+        st.info('Months: {}'.format(relativedelta.relativedelta(max(dates), min(dates))))
