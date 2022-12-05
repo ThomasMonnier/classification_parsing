@@ -129,9 +129,9 @@ if __name__ == "__main__":
                     for iter, row in df.iterrows():
                         try:
                             match_1 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
-                            mind = datetime.strptime(match_1.group(), '%Y-%m-%d').date()
+                            mind = datetime.strptime(match_1.group(), '%d/%m/%y').date()
                             match_2 = re.search(r'\d{2}/\d{2}/\d{2,4}', row[0])
-                            maxd = datetime.strptime(match_1.group(), '%Y-%m-%d').date()
+                            maxd = datetime.strptime(match_1.group(), '%d/%m/%y').date()
                             dates.append(mind)
                             dates.append(maxd)
                             display_dates.append(mind)
